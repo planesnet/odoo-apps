@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="birthday_notification" model="mail.template">
+                <field name="name">Birthday Notification For Partners</field>
+                <field name="model_id" ref="base.model_res_partner"/>
+                <field name="subject">Birthday Notification</field>
+                <field name="body_html"><![CDATA[
+<p>Dear ${object.name},</p>
+<p>Happy Birthday</p>
+<p>Hope you have a great Year Ahead. Stay Healthy, Stay Happy.Cheers.</p>
+
+Your Family at
+<strong>${user.company_id.name}</strong>
+                ]]></field>
+                <field name="user_signature" eval="False"/>
+            </record>
+
+        </data>
+      </odoo>
