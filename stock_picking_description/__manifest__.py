@@ -5,11 +5,11 @@
     'summary': "Copia la descripción de las líneas de venta en la descripción de los movimientos de stock.",
 
     'description': """
-Copia la descripción de las líneas de venta en la descripción de los movimientos de stock.
-Pedido de venta -> Documento de entrega.
-Pedido de venta -> Picking o documento de elección de productos.
-Pedido de venta -> Compra (cuando se activa la ruta Drop shipping).
-Pedido de compra -> Documento de salida
+Copia la descripción de las líneas de venta en la descripción de los movimientos de stock.<br/>
+Pedido de venta -> Documento de entrega.<br/>
+Pedido de venta -> Picking o documento de elección de productos.<br/>
+Pedido de venta -> Compra (cuando se activa la ruta Drop shipping).<br/>
+Pedido de compra -> Documento de salida<br/>
     """,
 
     'author': "Planes Soluciones Informáticas",
