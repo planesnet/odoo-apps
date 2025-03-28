@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Stock pikcing description",
+    'name': "Stock picking description",
 
     'summary': "Copy the description of the sales lines into the description of the stock movements.",
 
@@ -17,7 +17,7 @@ For each sales or purchase order line, if the order line description has been ed
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Inventory',
-    'version': '1.1',
+    'version': '1.1.1',
     'license': 'OPL-1',
     
 
@@ -38,6 +38,7 @@ For each sales or purchase order line, if the order line description has been ed
 
 
     # Odoo store
+    'images': ['static/description/banner.jpg'],    
     'price': 25.0,
     'currency': 'EUR',
 }
