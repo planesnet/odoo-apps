@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "stock_picking_description",
+    'name': "Stock pikcing description",
 
     'summary': "Copy the description of the sales lines into the description of the stock movements.",
 
