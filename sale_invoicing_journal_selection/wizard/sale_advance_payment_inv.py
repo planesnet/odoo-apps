@@ -24,12 +24,13 @@ class SaleAdvancePaymentInv(models.TransientModel):
         invoices = super()._create_invoices(sale_orders)
 
 
-        # prioritt over other modules
+        # priority over other modules
         if self.journal_id:
             for invoice in invoices:
                 if invoice.journal_id != self.journal_id:
-                    invoice.journal_id = self.journal_id
-            return invoices
+                    invoice.journal_id = self.journal_id.id
+        
+        return invoices
         
 
 
