@@ -17,7 +17,7 @@ Select the journal when you create invoices.
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Accounting & Finance',
-    'version': '1.0',
+    'version': '1.0.1',
     'license': 'AGPL-3',
     
 

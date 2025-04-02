@@ -21,10 +21,21 @@ class SaleAdvancePaymentInv(models.TransientModel):
             return sale_orders.with_context(**ctx)._create_invoices(
                 final=self.deduct_down_payments, grouped=not self.consolidated_billing
             )
-        return super()._create_invoices(sale_orders)
+        invoices = super()._create_invoices(sale_orders)
+
+
+        # prioritt over other modules
+        if self.journal_id:
+            for invoice in invoices:
+                if invoice.journal_id != self.journal_id:
+                    invoice.journal_id = self.journal_id
+            return invoices
+        
+
 
     def _prepare_invoice_values(self, order, so_line):
         res = super()._prepare_invoice_values(order, so_line)
         if self.journal_id:
             res["journal_id"] = self.journal_id.id
         return res
+
