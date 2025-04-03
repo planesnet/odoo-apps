@@ -18,7 +18,7 @@ msgstr ""
 #. module: sale_invoicing_journal_selection
 #: model:ir.model.fields,field_description:sale_invoicing_journal_selection.field_sale_advance_payment_inv__journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: sale_invoicing_journal_selection
 #: model:ir.model,name:sale_invoicing_journal_selection.model_sale_advance_payment_inv
