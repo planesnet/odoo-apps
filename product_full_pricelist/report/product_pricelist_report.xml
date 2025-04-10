@@ -4,15 +4,17 @@
   <template id="report_pricelist_page" inherit_id="product.report_pricelist_page">
     <xpath expr="//table/thead/tr/th[1]" position="after">
       <th class="text-end">Price List</th>
-
+      <th class="text-end">% Discount</th>
     </xpath>
 
     <xpath expr="//table//tbody/t/tr[1]/td[1]" position="after">
       <td class="text-end"><span t-out="product['list_price']" t-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/></td>
+      <td class="text-end"><span t-if="product['real_discount']" t-out="product['real_discount']" t-options='{"widget": "float", "precision":2 }'/></td>
     </xpath>
 
     <xpath expr="//table//tbody/t/t/tr[1]//td[1]" position="after">
       <td class="text-end"><span t-out="variant['list_price']" t-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/></td>
+      <td class="text-end"><span t-if="product['real_discount']" t-out="product['real_discount']" t-options='{"widget": "float", "precision":2 }'/></td>
     </xpath>
 
 
