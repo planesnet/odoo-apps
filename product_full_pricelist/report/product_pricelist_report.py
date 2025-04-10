@@ -17,7 +17,7 @@ class ProductPricelistReport(models.AbstractModel):
             data['list_price'] = product.lst_price
 
 
-        if 1 in data['price']:
+        if 1 in data['price'] and data['list_price']:
             data['real_discount'] = round((data['list_price'] - data['price'][1]) / data['list_price'] * 100, 2) 
 
         else:
