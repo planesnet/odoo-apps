@@ -4,7 +4,7 @@
     'summary': "Show full information on product price list report",
 
     'description': """
-Full product price list report
+Full product price list report.
     """,
 
     # Categories can be used to filter modules in modules listing
