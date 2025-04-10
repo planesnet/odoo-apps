@@ -21,6 +21,11 @@ msgid "Price List"
 msgstr "Lista de precios"
 
 #. module: product_full_pricelist
+#: model_terms:ir.ui.view,arch_db:product_full_pricelist.report_pricelist_page
+msgid "% Discount"
+msgstr "% Descuento"
+
+#. module: product_full_pricelist
 #: model:ir.model,name:product_full_pricelist.model_report_product_report_pricelist
 msgid "Pricelist Report"
 msgstr "Informe de la lista de precios"
