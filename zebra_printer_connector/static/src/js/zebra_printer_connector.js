@@ -33,7 +33,13 @@ class AccionImprimirEtiqueta extends Component {
             this.ws = new WebSocket(url);
 
             this.ws.onmessage = (event) => {
-                console.log("WebSocket onmessage")
+                var result = JSON.parse(event.data);
+                if (result['code'] == 'ERROR') {
+                    alert("Error: " + result['message']);    
+                }
+                else {
+                    console.log("WebSocket onmessage");
+                }
             };
             this.ws.onerror = (event) => {
                 alert("No hay conexión con el servidor WSS de impresión. Seguramente este apagado o se encuentre en un estado incorrecto. Por favor, enciéndalo y vuelva a intentarlo.");

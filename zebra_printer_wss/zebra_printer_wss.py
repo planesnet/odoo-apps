@@ -63,6 +63,7 @@ class ZebraPrinterWSS(WebSocket):
         return "OK"
 
     def handle(self):
+        state = False
         try:
             logger.info("Petición solicitada!")
             state = self.get_remote_print(self.data)
@@ -70,10 +71,11 @@ class ZebraPrinterWSS(WebSocket):
             for k in self.clients.keys():
                 client = self.clients.get(k)
                 logger.info("{} Estado petición:{}".format(self.address[1], state))
-                client.send_message(state)
+                client.send_message(json.dumps({'code': state, 'message': ''}))
 
         except Exception as ex:
             logger.error(ex, exc_info=True)
+            self.clients.get(list(self.clients.keys())[0]).send_message(json.dumps({'code': 'ERROR', 'message': str(ex)}))
 
     def connected(self):
         try: 
