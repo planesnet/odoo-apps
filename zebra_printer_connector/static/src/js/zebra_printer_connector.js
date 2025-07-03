@@ -18,6 +18,8 @@ class AccionImprimirEtiqueta extends Component {
         this.modelName = this.context['model_name']
         this.reportName = this.context['report_name']
         this.printerIp = this.context['printer_ip']
+        this.printerResolution = this.context['printer_resolution']
+        this.bultos = this.context['bultos']
 
         this.connectToWebSocketServer();
     }
@@ -26,7 +28,7 @@ class AccionImprimirEtiqueta extends Component {
         var self = this;
 
         //Primero obtenemos el ZPL de la etiqueta, renderizando la plantilla desde un método Python
-        this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [this.resId, this.modelName, this.reportName]);
+        this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [this.resId, this.modelName, this.reportName, this.bultos, this.printerResolution]);
 
         if (this.zpl != null && this.printerIp != null && this.printerIp != '0.0.0.0') {
             var url = "ws://127.0.0.1:5001";

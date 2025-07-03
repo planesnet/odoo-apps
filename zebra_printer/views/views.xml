@@ -31,10 +31,11 @@
                             <group string="Printer">
                                 <field name="name"/>
                                 <field name="model"/>
+                                <field name="resolution" required="1"/>
                                 <field name="active"/>
                             </group>    
                             <group string="Network">
-                                <field name="ip"/>
+                                <field name="ip" required="1"/>
                                 <field name="port"/>
                                 <field name="buffer_size"/>
                             </group>
@@ -48,6 +49,7 @@
             <field name="arch" type="xml">
                 <tree string="Zebra printers">
                     <field name="name"/>
+                    <field name="resolution"/>
                     <field name="ip"/>
                     <field name="port"/>
                 </tree>

@@ -14,10 +14,12 @@ class WizardSelectPrinter(models.Model):
             return user_id.printer_id.id
 
     printer_id = fields.Many2one("zebra.printer", string="Impresora", required=True, default=printer_default)
+    bultos = fields.Integer("Número de bultos", default=1)
     active_id = fields.Integer("ActiveId")
     model_name = fields.Char("Model name")
     report_name = fields.Char("Report name")
     printer_ip = fields.Char("Printer IP", compute="_compute_printer_ip", store=True)
+    printer_resolution = fields.Selection(related="printer_id.resolution")
 
     @api.depends('printer_id','printer_id.ip')
     def _compute_printer_ip(self):
@@ -31,5 +33,12 @@ class WizardSelectPrinter(models.Model):
         self.ensure_one()
 
         action = self.env["ir.actions.client"]._for_xml_id("zebra_printer_connector.accion_imprimir_etiqueta")
-        action['context'] = {'active_id': self.active_id, 'model_name': self.model_name, 'report_name': self.report_name, 'printer_ip': self.printer_ip}
+        action['context'] = {
+            'active_id': self.active_id, 
+            'model_name': self.model_name, 
+            'report_name': self.report_name, 
+            'printer_ip': self.printer_ip, 
+            'printer_resolution': self.printer_resolution,
+            'bultos': self.bultos
+        }
         return action

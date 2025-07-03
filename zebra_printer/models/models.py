@@ -5,6 +5,11 @@ import sys, traceback
 import logging
 _logger = logging.getLogger(__name__)
 
+RESOLUCIONES = [
+    ('203', '203 ppp'),
+    ('300', '300 ppp')
+]
+
 class ZebraPrinter(models.Model):
     _name = "zebra.printer"
     _description = "Zebra printers"
@@ -18,6 +23,7 @@ class ZebraPrinter(models.Model):
     ip = fields.Char('IP number')
     port = fields.Integer('Port', default=9100)
     buffer_size = fields.Integer('Buffer size', default=1024)
+    resolution = fields.Selection(RESOLUCIONES, string="Resolución (ppp)", default='300')
     active = fields.Boolean(default=True)
 
     def zprint(self, datas):
