@@ -18,16 +18,11 @@ class WizardSelectPrinter(models.Model):
     active_id = fields.Integer("ActiveId")
     model_name = fields.Char("Model name")
     report_name = fields.Char("Report name")
-    printer_ip = fields.Char("Printer IP", compute="_compute_printer_ip", store=True)
+    printer_ip = fields.Char(related="printer_id.ip")
+    printer_port = fields.Integer(related="printer_id.port")
+    proxy_server_ip = fields.Char(related="printer_id.proxy_ip")
+    proxy_server_port = fields.Integer(related="printer_id.proxy_port")
     printer_resolution = fields.Selection(related="printer_id.resolution")
-
-    @api.depends('printer_id','printer_id.ip')
-    def _compute_printer_ip(self):
-        for record in self:
-            if record.printer_id:
-                record.printer_ip = record.printer_id.ip
-            else:
-                record.printer_ip = "0.0.0.0"
 
     def print_zebra_printer_label(self):
         self.ensure_one()
@@ -37,7 +32,10 @@ class WizardSelectPrinter(models.Model):
             'active_id': self.active_id, 
             'model_name': self.model_name, 
             'report_name': self.report_name, 
-            'printer_ip': self.printer_ip, 
+            'printer_ip': self.printer_ip,
+            'printer_port': self.printer_port,
+            'proxy_server_ip': self.proxy_server_ip,
+            'proxy_server_port': self.proxy_server_port,
             'printer_resolution': self.printer_resolution,
             'bultos': self.bultos
         }

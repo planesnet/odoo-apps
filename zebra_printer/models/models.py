@@ -20,10 +20,12 @@ class ZebraPrinter(models.Model):
         ('gx430t', 'GX430t'),
     ], required=True, default='default')
 
-    ip = fields.Char('IP number')
+    ip = fields.Char('Printer IP number')
     port = fields.Integer('Port', default=9100)
     buffer_size = fields.Integer('Buffer size', default=1024)
     resolution = fields.Selection(RESOLUCIONES, string="Resolución (ppp)", default='300')
+    proxy_ip = fields.Char('Proxy Server IP number')
+    proxy_port = fields.Integer('Proxy Port', default=5001)
     active = fields.Boolean(default=True)
 
     def zprint(self, datas):

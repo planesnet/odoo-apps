@@ -18,6 +18,8 @@ class ZebraPrinterWSS(WebSocket):
     def __init__(self, server, sock, address):
         super().__init__(server, sock, address)
         self.clients = {}
+
+        print("Server:" + str(server) + ". Sock:" + str(sock) + ". Address:" + str(address))
  
     def get_remote_print(self, data):
         print("get_remote_print method executed!!")
@@ -32,10 +34,10 @@ class ZebraPrinterWSS(WebSocket):
 
             dict_data = json.loads(data)
             ip = dict_data['printer_ip']
+            port = dict_data['printer_port']
             zpl = dict_data['zpl']
          
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            port = 9100
             s.connect((ip, port))
             logger.info("Connect at %s:%s" % (ip,str(port)))
 
@@ -104,7 +106,6 @@ class ZebraPrinterWSS(WebSocket):
 
 if __name__=="__main__":
 
-
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
@@ -113,18 +114,14 @@ if __name__=="__main__":
     handler = logging.StreamHandler(sys.stderr)
     handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s - %(message)s'))
     logger.addHandler(handler)
-    
 
     parser = OptionParser(usage='usage: %prog [options]', version='%prog 1.0')
-    parser.add_option('--host', default='', type='string', action='store', dest='host', help='IP Address)')
-    parser.add_option('--port', default=5000, type='int', action='store', dest='port', help='port (5000)')
-    parser.add_option('--simulate', action='store_true', dest='simulate', default=False, help='Simulation')
+    parser.add_option('--port', default=5001, type='int', action='store', dest='port', help='port (5001)')
     parser.add_option("--debug", action="store_true", dest="verbose", default=False, help="detail log for proxy.")
-
 
     (options, args) = parser.parse_args()
 
-    server = WebSocketServer('127.0.0.1', 5001, ZebraPrinterWSS)
+    server = WebSocketServer('', options.port, ZebraPrinterWSS)
 
     def close_sig_handler(signal, frame):
         server.close()

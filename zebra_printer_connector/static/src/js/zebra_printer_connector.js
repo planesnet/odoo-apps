@@ -18,6 +18,9 @@ class AccionImprimirEtiqueta extends Component {
         this.modelName = this.context['model_name']
         this.reportName = this.context['report_name']
         this.printerIp = this.context['printer_ip']
+        this.printerPort = this.context['printer_port']
+        this.proxyServerIp = this.context['proxy_server_ip']
+        this.proxyServerPort = this.context['proxy_server_port']
         this.printerResolution = this.context['printer_resolution']
         this.bultos = this.context['bultos']
 
@@ -30,8 +33,8 @@ class AccionImprimirEtiqueta extends Component {
         //Primero obtenemos el ZPL de la etiqueta, renderizando la plantilla desde un método Python
         this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [this.resId, this.modelName, this.reportName, this.bultos, this.printerResolution]);
 
-        if (this.zpl != null && this.printerIp != null && this.printerIp != '0.0.0.0') {
-            var url = "ws://127.0.0.1:5001";
+        if (this.zpl != null && this.printerIp != null && this.printerPort != null && this.proxyServerIp != null && this.proxyServerPort) {
+            var url = "ws://" + this.proxyServerIp + ":" + this.proxyServerPort.toString();
             this.ws = new WebSocket(url);
 
             this.ws.onmessage = (event) => {
@@ -44,6 +47,7 @@ class AccionImprimirEtiqueta extends Component {
                 }
             };
             this.ws.onerror = (event) => {
+                console.log(event.data);
                 alert("No hay conexión con el servidor WSS de impresión. Seguramente este apagado o se encuentre en un estado incorrecto. Por favor, enciéndalo y vuelva a intentarlo.");
             };
 
@@ -55,19 +59,19 @@ class AccionImprimirEtiqueta extends Component {
     }
 
     sendToWebSocketServer(self) {
+        console.log(self.ws.readyState);
         if (self.ws.readyState === WebSocket.OPEN) {
             console.log(this.zpl);
 
             var send_data = {
                 'zpl': this.zpl,
-                'printer_ip': this.printerIp
+                'printer_ip': this.printerIp,
+                'printer_port': this.printerPort
             }
             self.ws.send(JSON.stringify(send_data));
+
+            self.closeClientAction();
         }
-        else {
-            console.log(0);
-        }
-        self.closeClientAction();      
     }
 
     closeClientAction() {

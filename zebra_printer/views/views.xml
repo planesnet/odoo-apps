@@ -36,7 +36,9 @@
                             </group>    
                             <group string="Network">
                                 <field name="ip" required="1"/>
-                                <field name="port"/>
+                                <field name="port" required="1"/>
+                                <field name="proxy_ip" required="1"/>
+                                <field name="proxy_port" required="1"/>            
                                 <field name="buffer_size"/>
                             </group>
                         </group>
@@ -52,6 +54,8 @@
                     <field name="resolution"/>
                     <field name="ip"/>
                     <field name="port"/>
+                    <field name="proxy_ip"/>
+                    <field name="proxy_port"/>
                 </tree>
             </field>
         </record>
