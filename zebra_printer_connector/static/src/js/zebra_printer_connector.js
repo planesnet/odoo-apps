@@ -47,7 +47,6 @@ class AccionImprimirEtiqueta extends Component {
                 }
             };
             this.ws.onerror = (event) => {
-                console.log(event.data);
                 alert("No hay conexión con el servidor WSS de impresión. Seguramente este apagado o se encuentre en un estado incorrecto. Por favor, enciéndalo y vuelva a intentarlo.");
             };
 
