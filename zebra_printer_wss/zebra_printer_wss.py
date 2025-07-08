@@ -116,12 +116,12 @@ if __name__=="__main__":
     logger.addHandler(handler)
 
     parser = OptionParser(usage='usage: %prog [options]', version='%prog 1.0')
-    parser.add_option('--port', default=5001, type='int', action='store', dest='port', help='port (5001)')
+    parser.add_option('--port', default=8001, type='int', action='store', dest='port', help='port (8001)')
     parser.add_option("--debug", action="store_true", dest="verbose", default=False, help="detail log for proxy.")
 
     (options, args) = parser.parse_args()
 
-    server = WebSocketServer('', options.port, ZebraPrinterWSS)
+    server = WebSocketServer('0.0.0.0', options.port, ZebraPrinterWSS)
 
     def close_sig_handler(signal, frame):
         server.close()
