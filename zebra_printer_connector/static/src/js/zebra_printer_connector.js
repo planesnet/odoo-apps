@@ -34,7 +34,7 @@ class AccionImprimirEtiqueta extends Component {
         this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [this.resId, this.modelName, this.reportName, this.bultos, this.printerResolution]);
 
         if (this.zpl != null && this.printerIp != null && this.printerPort != null && this.proxyServerIp != null && this.proxyServerPort) {
-            var url = "ws://" + this.proxyServerIp + ":" + this.proxyServerPort.toString();
+            var url = "wss://" + this.proxyServerIp + ":" + this.proxyServerPort.toString();
             this.ws = new WebSocket(url);
 
             this.ws.onmessage = (event) => {

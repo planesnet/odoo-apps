@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import os
 
+import ssl
 import signal 
 import sys
 import json
@@ -115,11 +116,23 @@ global_server_thread = None
 def _run_sync_server_in_thread(host, port, handler_class):
     """Función que ejecuta el servidor síncrono en un hilo separado."""
     global global_sync_websocket_server
+
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    try:
+        ssl_context.load_cert_chain('cert.pem', 'key.pem') 
+        logger.info("Contexto SSL cargado exitosamente.")
+    except FileNotFoundError:
+        logger.error("ERROR: Archivos de certificado SSL (cert.pem/key.pem) no encontrados. Asegúrate de que estén en la misma carpeta o especifica la ruta completa.")
+        return # No puede iniciar sin SSL
+    except Exception as e:
+        logger.error(f"ERROR al cargar certificados SSL: {e}", exc_info=True)
+        return
+
     try:
         # Aquí se crea y se lanza el servidor síncrono.
         # Esto BLOQUEARÁ ESTE HILO SECUNDARIO indefinidamente.
         logger.info(f"[ServerThread] Iniciando WebSocketServer síncrono en {host}:{port}...")
-        global_sync_websocket_server = WebSocketServer(host, port, handler_class) # Asumo WebSocketServer existe
+        global_sync_websocket_server = WebSocketServer(host, port, handler_class, ssl=ssl_context) # Asumo WebSocketServer existe
         global_sync_websocket_server.serve_forever() # Bloquea este hilo
         logger.info("[ServerThread] WebSocketServer síncrono ha terminado serve_forever.")
     except Exception as e:
