@@ -14,7 +14,7 @@ import threading
 from proxy_server import main as wss_main
 
 # Cambia el directorio de trabajo al del script.
-# Esto es crucial para que el servicio encuentre los ficheros (cert.pem, etc.).
+# Esto es crucial para que el servicio encuentre los ficheros (cert.pem, etc.)
 
 
 path = os.path.dirname(os.path.abspath(__file__))
