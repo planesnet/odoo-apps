@@ -1,3 +1,0 @@
-[submodule "custom_modules"]
-	path = custom_modules
-	url = git@github.com:planesnet/odoo-apps.git
