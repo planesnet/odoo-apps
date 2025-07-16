@@ -41,7 +41,6 @@ class AccionImprimirEtiqueta extends Component {
 
         // 1. Obtener el ZPL de la etiqueta desde Python
         try {
-            this.notification.add("Generando ZPL de la etiqueta...", { type: "info" });
             this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [
                 this.resId,
                 this.modelName,
@@ -51,14 +50,12 @@ class AccionImprimirEtiqueta extends Component {
             ]);
 
             if (!this.zpl) {
-                this.notification.add("El ZPL no pudo ser generado. Verifique la configuración del reporte.", { type: "danger" });
                 this.closeClientAction();
                 return;
             }
             console.log("ZPL obtenido:", this.zpl);
 
         } catch (error) {
-            this.notification.add(`Error al obtener ZPL: ${error.message || error.data.message || error}`, { type: "danger" });
             console.error("Error al obtener ZPL:", error);
             this.closeClientAction();
             return;
@@ -66,12 +63,10 @@ class AccionImprimirEtiqueta extends Component {
 
         // 2. Conectar e Imprimir
         try {
-            this.notification.add("Conectando al servidor de impresión WSS...", { type: "info" });
             // Llama a la nueva función asíncrona para conectar y enviar
             await this.connectAndSendToWebSocketServer();
         } catch (error) {
             // Este catch manejará los errores de conexión o envío
-            this.notification.add(`Error crítico de conexión o envío al servidor WSS: ${error.message || error.data.message || error}`, { type: "danger" });
             console.error("Error crítico en conexión WSS:", error);
             this.closeClientAction();
         }
@@ -84,7 +79,6 @@ class AccionImprimirEtiqueta extends Component {
 
         return new Promise((resolve, reject) => {
             this.ws.onopen = (event) => {
-                this.notification.add("Conexión WSS establecida. Enviando datos...", { type: "success" });
                 console.log("WebSocket onopen: Conexión establecida.");
                 this.sendToWebSocketServer(); // Llamar a send una vez que la conexión esté abierta
                 resolve(); // Resuelve la promesa al abrir
@@ -96,18 +90,15 @@ class AccionImprimirEtiqueta extends Component {
                     result = JSON.parse(event.data);
                 } catch (e) {
                     console.error("Error al parsear JSON del WebSocket:", e, "Datos:", event.data);
-                    this.notification.add("Error al procesar respuesta del servidor de impresión.", { type: "danger" });
                     return;
                 }
                 
                 if (result.code === 'ERROR') { // Usar === para comparación estricta
-                    this.notification.add(`Error de impresión: ${result.message}`, { type: "danger" });
                     console.error("Error del servidor WebSocket:", result.message);
                 } else if (result.code === 'OK') {
-                    this.notification.add("Etiqueta enviada correctamente.", { type: "success" });
+                    this.notification.add("Imprimiendo etiqueta...", { type: "info" });
                     console.log("WebSocket onmessage: Operación OK.");
                 } else {
-                    this.notification.add(`Respuesta inesperada del servidor: ${event.data}`, { type: "warning" });
                     console.warn("Respuesta WebSocket inesperada:", event.data);
                 }
                 this.closeClientAction(); // Cerrar la acción después de recibir respuesta
@@ -115,8 +106,6 @@ class AccionImprimirEtiqueta extends Component {
             };
 
             this.ws.onerror = (event) => {
-                const errorMessage = "No hay conexión con el servidor WSS de impresión. Asegúrese de que esté encendido y que el certificado autofirmado haya sido aceptado en su navegador.";
-                this.notification.add(errorMessage, { type: "danger", sticky: true }); // sticky para que permanezca
                 console.error("WebSocket onerror:", event);
                 reject(new Error("Conexión WSS fallida o error.")); // Rechaza la promesa en caso de error
             };
@@ -124,7 +113,9 @@ class AccionImprimirEtiqueta extends Component {
             this.ws.onclose = (event) => {
                 // Solo loguea si no es un cierre normal después de que la lógica terminó
                 if (!event.wasClean) {
-                    this.notification.add("Conexión WSS cerrada inesperadamente.", { type: "warning" });
+                    this.notification.add("El problema puede ser producido por dos motivos:", {type: "danger", sticky: true})
+                    this.notification.add("1. Falta aceptar el certificado SSL en el navegador, para ello acéptelo en: https://" + this.proxyServerIp + ':' + this.proxyServerPort.toString() + ".", {type: "danger", sticky: true})
+                    this.notification.add("2. No hay conexión con el servidor de impresión, para ello consulte con el administrador", {type: "danger", sticky: true});
                     console.warn("WebSocket onclose: Conexión cerrada inesperadamente.", event.code, event.reason);
                 } else {
                     console.log("WebSocket onclose: Conexión cerrada limpiamente.");
@@ -159,52 +150,5 @@ class AccionImprimirEtiqueta extends Component {
         this.action.restore();
         //this.action.doAction("stock.product_template_action_product");
     }
-
-    /*
-    async connectToWebSocketServer() {
-        var self = this;
-
-        //Primero obtenemos el ZPL de la etiqueta, renderizando la plantilla desde un método Python
-        this.zpl = await this.orm.call("ir.actions.report", "get_zpl", [this.resId, this.modelName, this.reportName, this.bultos, this.printerResolution]);
-
-        if (this.zpl != null && this.printerIp != null && this.printerPort != null && this.proxyServerIp != null && this.proxyServerPort) {
-            var url = "wss://" + this.proxyServerIp + ":" + this.proxyServerPort.toString();
-            this.ws = new WebSocket(url);
-
-            this.ws.onmessage = (event) => {
-                var result = JSON.parse(event.data);
-                if (result['code'] == 'ERROR') {
-                    alert("Error: " + result['message']);    
-                }
-                else {
-                    console.log("WebSocket onmessage");
-                }
-            };
-            this.ws.onerror = (event) => {
-                alert("No hay conexión con el servidor WSS de impresión. Seguramente este apagado o se encuentre en un estado incorrecto. Por favor, enciéndalo y vuelva a intentarlo.");
-            };
-
-            //Hay que dar algo de tiempo para que conecte el WebSocket desde esta versión en JS.
-            setTimeout(function() {
-                self.sendToWebSocketServer(self);
-            }, 1000);
-        }
-    }
-
-    sendToWebSocketServer(self) {
-        console.log(self.ws.readyState);
-        if (self.ws.readyState === WebSocket.OPEN) {
-            console.log(this.zpl);
-
-            var send_data = {
-                'zpl': this.zpl,
-                'printer_ip': this.printerIp,
-                'printer_port': this.printerPort
-            }
-            self.ws.send(JSON.stringify(send_data));
-
-            self.closeClientAction();
-        }
-    }*/
 }
 registry.category("actions").add("zebra_printer_connector.AccImpEti", AccionImprimirEtiqueta);
