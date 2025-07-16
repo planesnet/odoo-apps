@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api
+
+
+class WizardSelectPrinter(models.Model):
+    _name = "wizard.select.printer"
+    _description = "Modelo para representar el wizard de selección de impresora"
+
+    @api.model
+    def printer_default(self):
+        user_id =  self.env.user
+        if user_id.printer_id:
+            return user_id.printer_id.id
+
+    printer_id = fields.Many2one("zebra.printer", string="Impresora", required=True, default=printer_default)
+    bultos = fields.Integer("Número de bultos", default=1)
+    active_id = fields.Integer("ActiveId")
+    model_name = fields.Char("Model name")
+    report_name = fields.Char("Report name")
+    printer_ip = fields.Char(related="printer_id.ip")
+    printer_port = fields.Integer(related="printer_id.port")
+    proxy_server_ip = fields.Char(related="printer_id.proxy_ip")
+    proxy_server_port = fields.Integer(related="printer_id.proxy_port")
+    printer_resolution = fields.Selection(related="printer_id.resolution")
+
+    def print_zebra_printer_label(self):
+        self.ensure_one()
+
+        action = self.env["ir.actions.client"]._for_xml_id("zebra_printer_connector.accion_imprimir_etiqueta")
+        action['context'] = {
+            'active_id': self.active_id, 
+            'model_name': self.model_name, 
+            'report_name': self.report_name, 
+            'printer_ip': self.printer_ip,
+            'printer_port': self.printer_port,
+            'proxy_server_ip': self.proxy_server_ip,
+            'proxy_server_port': self.proxy_server_port,
+            'printer_resolution': self.printer_resolution,
+            'bultos': self.bultos
+        }
+        return action

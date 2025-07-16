@@ -1,0 +1,37 @@
+<odoo>
+  <data>
+    <record id="zebra_printer_connector.accion_imprimir_etiqueta" model="ir.actions.client">
+      <field name="name">Acción de Imprimir etiqueta</field>
+      <field name="tag">zebra_printer_connector.AccImpEti</field>
+    </record>
+
+    <record id="view_select_printer" model="ir.ui.view">
+        <field name="name">print.select.printer</field>
+        <field name="model">wizard.select.printer</field>
+        <field eval="12" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Seleccionar impresora">
+                <group>
+                    <group>
+                        <field name="printer_id"/>
+                        <field name="bultos"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_zebra_printer_label" string="Imprimir" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-default"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_select_printer" model="ir.actions.act_window">
+        <field name="name">Seleccionar impresora</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.select.printer</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_select_printer"/>
+        <field name="target">new</field>
+    </record>
+  </data>
+</odoo>
