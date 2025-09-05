@@ -64,7 +64,7 @@
         <record id="action_zebra_printer" model="ir.actions.act_window">
             <field name="name">Printers</field>
             <field name="res_model">zebra.printer</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_zebra_printer_tree"/>
         </record>
         <menuitem action="action_zebra_printer" id="menu_action_zebra_printer" parent="menu_zebra" sequence="1"/>
