@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_pricelist_page">
+            <div class="container bg-white px-1 my-0">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <img t-if="partner.image_128" width="128" height="auto"   style="position: relative; top: -20px;" t-att-src="image_data_uri(partner.image_1920)" alt="Logo cliente" />
+                    </div>
+                </div>
+
+                <div class="row my-2">
+                    <div class="col-12">
+                        <table class="table table-condensed table-borderless mt-4">
+
+
+                            <tbody>
+                                <tr class="">
+                                    <td class="fw-bold">Datos del cliente</td>
+                                    <td>
+                                        <span class="mr32" t-if="partner.ref" t-out="partner.ref" />
+                                        <span t-out="partner.display_name" />
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Tarifa de precios</td>
+                                    <td>
+                                        <span t-out="pricelist.display_name" />
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Dirección</td>
+                                    <td>
+                                        <div t-out="partner"
+                                            t-options='{"widget": "contact", "fields": ["address", "name", "phone","mobile","email"], "no_marker": False, "phone_icons": True}' />
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+                                <tr t-if="partner.child_ids">
+                                    <td class="fw-bold">Contactos</td>
+                                    <td>
+                                        <div class="my-2" t-foreach="partner.child_ids" t-as="child">
+                                            <div t-out="child"
+                                                t-options='{"widget": "contact", "fields": ["name", "phone", "mobile", "email"], "no_marker": False, "phone_icons": True}' />
+                                        </div>
+
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+                                <tr t-if="partner.user_id">
+                                    <td class="fw-bold">Comercial</td>
+                                    <td>
+                                        <span t-out="partner.user_id.name" />
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+
+
+                                <tr t-if="partner.category_id">
+                                    <td class="fw-bold">Etiquetas</td>
+                                    <td>
+                                        <div class="d-inline my-2" t-foreach="partner.category_id" t-as="tag">
+                                            <span class="mr16" t-out="tag.name" />
+                                        </div>
+
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+
+                                <tr>
+                                    <td class="fw-bold">Condiciones de pago</td>
+                                    <td>
+                                        <span t-if="partner.property_payment_term_id" t-out="partner.property_payment_term_id.name" />
+                                    </td>
+                                    <td class="d-none" />
+                                </tr>
+
+                                <tr class="d-none">
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12">
+
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Concepto</th>
+                                    <th class="text-center">Mínimo</th>
+                                    <th class="text-end">Descuento</th>
+                                    <th class="text-end">Precio</th>
+                                    <th>Periodo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sorted(pricelist.item_ids, key=lambda t: (-int(t.applied_on[0]), t.categ_id.name, t.product_tmpl_id.name, t.product_id.name))"
+                                    t-as="item">
+                                    <tr>
+                                        <td>
+                                            <span t-if="item.applied_on=='0_product_variant'">Variant</span>
+                                            <span t-if="item.applied_on=='1_product'">Product</span>
+                                            <span t-if="item.applied_on=='2_product_category'">Category</span>
+                                            <span t-if="item.applied_on=='3_global'">Todos</span>
+                                        </td>
+
+                                        <td>
+                                            <span t-if="item.applied_on=='0_product_variant'" t-out="item.product_id.display_name" />
+                                            <span t-if="item.applied_on=='1_product'" t-out="item.product_tmpl_id.display_name" />
+                                            <span t-if="item.applied_on=='2_product_category'" t-out="item.categ_id.display_name" />
+                                            <span t-if="item.applied_on=='3_global'">Todos los productos</span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span t-if="item.min_quantity" t-field="item.min_quantity" />
+                                        </td>
+
+                                        <td class="text-end">
+                                            <span t-if="item.compute_price=='percentage'" t-field="item.percent_price" />
+                                        </td>
+
+                                        <td class="text-end">
+                                            <span t-if="item.compute_price=='fixed'" t-field="item.fixed_price" />
+                                        </td>
+
+                                        <td>
+                                            <span t-field="item.date_start" t-options="{'widget': 'date'}" />
+                                            <span class="mx-3" t-if="item.date_end">:</span>
+                                            <span t-if="item.date_end" t-field="item.date_end" t-options="{'widget': 'date'}" />
+                                        </td>
+                                        <td class="d-none" />
+
+                                    </tr>
+                                    <tr class="d-none" />
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </template>
+
+        <template id="report_pricelist">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="partner" t-value="doc.with_context(lang=doc.lang)" />
+                    <t t-set="pricelist" t-value="partner.property_product_pricelist" />
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure" />
+                            <t t-call="partner_pricelist_report.report_pricelist_page" />
+                            <div class="oe_structure"></div>
+                        </div>
+                        <p style="page-break-before:always;"> </p>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

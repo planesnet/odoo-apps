@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_pricelist" model="ir.actions.report">
+            <field name="name">Condiciones de venta</field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">partner_pricelist_report.report_pricelist</field>
+            <field name="report_file">partner_pricelist_report.report_pricelist</field>
+            <field name="print_report_name">'Lista de precios - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_manager')),(4, ref('sales_team.group_sale_salesman_all_leads')),(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+    </data>
+</odoo>
