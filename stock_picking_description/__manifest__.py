@@ -17,7 +17,7 @@ For each sales or purchase order line, if the order line description has been ed
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Inventory',
-    'version': '17.1.1.3',
+    'version': '17.2.0.1',
     'license': 'OPL-1',
     
 
