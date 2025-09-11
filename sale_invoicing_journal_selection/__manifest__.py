@@ -18,7 +18,7 @@ When you invoice pending orders en masse and want to record the generated invoic
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Accounting & Finance',
-    'version': '1.0.4',
+    'version': '18.0.1.0.0',
     'license': 'OPL-1',
     
 
