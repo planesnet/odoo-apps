@@ -8,7 +8,7 @@
 Long description of module's purpose
     """,
 
-    'author': "Planes Soluciones Informáticas SL",
+    'author': "Planes Soluciones Informáticas",
     'website': "https://www.planesnet.com",
 
     # Categories can be used to filter modules in modules listing
@@ -36,5 +36,8 @@ Long description of module's purpose
     'demo': [
         'demo/demo.xml',
     ],
+
+    'license': 'OEEL-1',
+
 }
 
