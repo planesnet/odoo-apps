@@ -29,5 +29,6 @@ Print partner pricelist report
         'views/views.xml',
         'views/templates.xml',
     ],
+    'license': 'OPL-1',
 }
 
