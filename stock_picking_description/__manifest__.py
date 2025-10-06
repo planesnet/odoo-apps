@@ -5,7 +5,8 @@
     'summary': "Copy the description of the sales lines into the description of the stock movements.",
 
     'description': """
-For each sales or purchase order line, if the order line description has been edited, it is propagated to the stock movements generated. The documents to which this propagation occurs are the stock delivery and receipt documents, as well as the "drop shipping" movement.
+For each sales or purchase order line, if the order line description has been edited, it is propagated to the stock movements generated. 
+The documents to which this propagation occurs are the stock delivery and receipt documents, as well as the "drop shipping" movement.
     """,
 
     'author': "Planes Soluciones Informáticas",
@@ -17,7 +18,7 @@ For each sales or purchase order line, if the order line description has been ed
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Inventory',
-    'version': '17.0.3.0',
+    'version': '17.0.4.0',
     'license': 'OPL-1',
     
 
