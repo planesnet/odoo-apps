@@ -9,12 +9,9 @@ Print partner pricelist report
     """,
 
     'author': "Planes Soluciones Informáticas",
-    'website': "https://www.planesnet.com.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Sales/Sales',
+    'website': "https://www.planesnet.com",
+    
+    'category': 'Sales',
     'version': '17.0.3.0',
 
     # any module necessary for this one to work correctly
