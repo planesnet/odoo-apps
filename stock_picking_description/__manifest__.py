@@ -18,7 +18,7 @@ The documents to which this propagation occurs are the stock delivery and receip
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Inventory',
-    'version': '17.0.4.0',
+    'version': '17.0.4.1',
     'license': 'OPL-1',
     
 

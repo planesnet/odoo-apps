@@ -18,7 +18,7 @@ Long description of module's purpose
     'version': '17.0.3.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','zebra_printer'],
+    'depends': ['base', 'zebra_printer'],
 
     # always loaded
     'data': [
@@ -40,4 +40,3 @@ Long description of module's purpose
     'license': 'OPL-1',
 
 }
-
