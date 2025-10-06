@@ -15,7 +15,7 @@ Print partner pricelist report
     'version': '17.0.3.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale'],
+    'depends': ['base', 'sale', 'sales_team'],
 
     # always loaded
     'data': [
@@ -27,4 +27,3 @@ Print partner pricelist report
         'views/templates.xml',
     ],
 }
-
