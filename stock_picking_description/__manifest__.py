@@ -27,15 +27,7 @@ For each sales or purchase order line, if the order line description has been ed
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        #'views/views.xml',
-        #'views/templates.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
-
-
 
     # Odoo store
     'images': ['static/description/banner.jpg'],    
