@@ -13,16 +13,24 @@ class PurchaseOrderLine(models.Model):
         description_picking = values.get('description_picking', False)
         if name:
             res['name'] = name
-            if description_picking != name:
-                # Se busca la referencia del proveedor en el 'name', que está entre corchetes.
-                match_ref = re.search(r'\[(.*?)\]', name)
-                
-                # Se busca la descripción del producto en 'description_picking', que está después de los corchetes.
-                match_desc = re.search(r'\]\s*(.*)', description_picking)
-                
-                # Si se encuentran ambas partes, se fusionan. Si no, se mantiene el nombre original para evitar errores.
-                if match_ref and match_desc:
-                    supplier_ref = match_ref.group(1)
-                    product_description = match_desc.group(1)
-                    res['name'] = f"[{supplier_ref}] {product_description}"
+
+            codigo_proveedor = False
+            # Se busca la descripción del producto en 'description_picking', que está después del salto de línea.
+            match_desc = re.search(r'\n\s*(.*)', description_picking)
+            # Nombre_producto
+            match_nombre_producto = re.search(r'\[.*?\]\s*([^\n]*)', name)
+            # Código del proveedor
+            if product_id.seller_ids:
+                codigo_proveedor = product_id.seller_ids[0].product_code
+            # Si se encuentran todas las partes partes, se fusionan. Si no, se mantiene el nombre original para evitar errores.
+            if codigo_proveedor and match_desc and match_nombre_producto:
+                product_description = match_desc.group(1)
+                nombre_producto = match_nombre_producto.group(1)
+                res['name'] = f"[{codigo_proveedor}] {nombre_producto}\n{product_description}"
+            elif codigo_proveedor and match_nombre_producto:
+                nombre_producto = match_nombre_producto.group(1)
+                res['name'] = f"[{codigo_proveedor}] {nombre_producto}"
+            else:
+                res['name'] = name
+                    
         return res
