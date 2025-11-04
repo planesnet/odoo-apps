@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_document_details_iban_inherit_ADD" 
+              inherit_id="account.report_invoice_document">
+        
+        <xpath expr="//div[p[@name='payment_communication']]" position="before">
+            
+            <t t-if="o.invoice_payment_term_id.name == 'Recibo bancario' and o.partner_id.bank_ids">
+                <div class="mb-3" style="page-break-inside: avoid;">
+                    <p>
+                        <strong>El efecto será remesado por su cuenta:</strong>
+                        <br/>
+                        <t t-set="iban" t-value="o.partner_id.bank_ids[0].acc_number.replace(' ', '')"/>
+                        <strong t-if="iban and len(iban) > 10">
+                            <span t-esc="iban[0:8] + '**********' + iban[-2:]"/>
+                        </strong>
+                        <strong t-elif="iban">
+                            <span t-field="o.partner_id.bank_ids[0].sanitized_acc_number"/>
+                        </strong>
+                    </p>
+                </div>
+            </t>
+            
+        </xpath>
+    </template>
+    
+    <template id="report_invoice_document_details_iban_inherit_HIDE" 
+              inherit_id="account.report_invoice_document">
+              
+        <xpath expr="//div[p[@name='payment_communication']]" position="attributes">
+            
+            <attribute name="t-if">
+                (1==2) and (o.invoice_payment_term_id.name != 'Recibo bancario')
+            </attribute>
+            
+        </xpath>
+    </template>
+    
+</odoo>
