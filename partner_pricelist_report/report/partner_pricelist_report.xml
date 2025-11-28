@@ -103,9 +103,25 @@
                             </thead>
                             <tbody>
                                 <t t-set="global_rule" t-value="pricelist.item_ids.filtered(lambda i: i.applied_on == '3_global' and i.base_pricelist_id)"/>
-                                <t t-set="parent_pricelist_items" t-value="global_rule.base_pricelist_id.item_ids if global_rule else False"/>
+                                <t t-set="parent_pricelist" t-value="global_rule.base_pricelist_id"/>
 
-                                <t t-set="combined_items" t-value="pricelist.item_ids + (parent_pricelist_items or [])"/>
+                                <t t-set="child_keys" t-value="[]"/>
+                                <t t-foreach="pricelist.item_ids" t-as="item">
+                                    <t t-set="key" t-value="(item.applied_on, item.product_tmpl_id.id, item.product_id.id, item.categ_id.id)"/>
+                                    <t t-set="child_keys" t-value="child_keys + [key]"/>
+                                </t>
+
+                                <t t-set="combined_items" t-value="pricelist.item_ids"/>
+
+                                <t t-if="parent_pricelist">
+                                    <t t-foreach="parent_pricelist.item_ids" t-as="parent_item">
+                                        <t t-set="parent_key" t-value="(parent_item.applied_on, parent_item.product_tmpl_id.id, parent_item.product_id.id, parent_item.categ_id.id)"/>
+                                        
+                                        <t t-if="parent_key not in child_keys">
+                                            <t t-set="combined_items" t-value="combined_items + parent_item"/>
+                                        </t>
+                                    </t>
+                                </t>
                                 <t t-foreach="
                                         sorted(
                                             combined_items,
