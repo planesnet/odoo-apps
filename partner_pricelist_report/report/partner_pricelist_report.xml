@@ -144,6 +144,9 @@
                                         </td>
 
                                         <td>
+                                            <span t-if="item not in pricelist.item_ids">
+                                                &amp;gt;&amp;nbsp;
+                                            </span>
                                             <span t-if="item.applied_on=='0_product_variant'" t-out="item.product_id.display_name" />
                                             <span t-if="item.applied_on=='1_product'" t-out="item.product_tmpl_id.display_name" />
                                             <span t-if="item.applied_on=='2_product_category'" t-out="item.categ_id.display_name" />
