@@ -102,19 +102,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <t t-set="global_rule" t-value="pricelist.item_ids.filtered(lambda i: i.applied_on == '3_global' and i.base_pricelist_id)"/>
+                                <t t-set="parent_pricelist_items" t-value="global_rule.base_pricelist_id.item_ids if global_rule else False"/>
+
+                                <t t-set="combined_items" t-value="pricelist.item_ids + (parent_pricelist_items or [])"/>
                                 <t t-foreach="
-                                    sorted(
-                                            pricelist.item_ids,
+                                        sorted(
+                                            combined_items,
                                             key=lambda t: (
                                                 0 if t.applied_on == '1_product' else
                                                 1 if t.applied_on == '0_product_variant' else
                                                 2 if t.applied_on == '2_product_category' else
                                                 3,
-                                                (t.product_tmpl_id.default_code or t.product_id.default_code or '')
+                                                (t.product_tmpl_id.default_code or t.product_id.default_code or ''),
+                                                t.id  
                                             )
                                         )
-                                    "
-                                    t-as="item">
+                                    " t-as="item">
                                     <tr>
                                         <td>
                                             <span t-if="item.applied_on=='0_product_variant'">Variant</span>
@@ -156,8 +160,6 @@
                         </table>
                     </div>
                 </div>
-
-
             </div>
         </template>
 
