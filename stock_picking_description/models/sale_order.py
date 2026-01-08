@@ -20,4 +20,3 @@ class SaleOrderLine(models.Model):
             'description_picking': self.name,
         })
         return values
-
