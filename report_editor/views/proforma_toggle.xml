@@ -33,7 +33,6 @@
     <record id="report_invoice_document_inherit_proforma" model="ir.ui.view">
         <field name="name">account.report.invoice.document.inherit.proforma</field>
         <field name="inherit_id" ref="account.report_invoice_document" />
-        <field name="priority">1</field>
         <field name="arch" type="xml">
 
             <xpath expr="//t[@t-if='not proforma']" position="attributes">
