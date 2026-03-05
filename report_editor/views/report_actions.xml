@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="account.report_invoice_document_preview" model="ir.ui.view">
+            <field name="active" eval="False" />
+        </record>
+    </data>
+</odoo>

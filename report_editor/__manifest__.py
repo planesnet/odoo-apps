@@ -4,9 +4,11 @@
     'version': '19.0.1.0.0',
     'author': "Planes Soluciones Informáticas",
     'category': 'Web',
-    'depends': ['base', 'web', 'html_editor'],
+    'depends': ['base', 'web', 'html_editor', 'account'],
     'data': [
         'views/res_company_views.xml',
+        'views/report_actions.xml',
+        'views/invoice_toggle.xml',
     ],
     'assets': {
         'web.assets_backend': [
