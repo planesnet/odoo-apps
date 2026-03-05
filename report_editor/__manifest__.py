@@ -7,7 +7,8 @@
     'depends': ['base', 'web', 'html_editor', 'account'],
     'data': [
         'views/res_company_views.xml',
-        'views/proforma_toggle.xml',
+        'views/report_actions.xml',
+        'views/invoice_toggle.xml',
     ],
     'assets': {
         'web.assets_backend': [
