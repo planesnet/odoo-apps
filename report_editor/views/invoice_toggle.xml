@@ -106,10 +106,9 @@
 
             <!-- Gestión de la visibilidad del comentario -->
             <xpath expr="//div[@name='comment']" position="attributes">
-                <attribute name="t-if">not is_immediate and not is_html_empty(o.narration) and
+                <attribute name="t-if">not is_immediate and not is_html_empty(o.narration) and is_html_empty(res_company.report_footer) and
                     res_company.x_hide_bank_info</attribute>
             </xpath>
-
         </field>
     </record>
 </odoo>
