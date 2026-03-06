@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <!-- Variable hide proforma  -->
     <record id="field_res_company_x_hide_proforma" model="ir.model.fields">
         <field name="name">x_hide_proforma</field>
@@ -60,8 +59,18 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('page')]" position="before">
                 <t t-set="is_immediate"
-                    t-value="o.invoice_payment_term_id and o.invoice_payment_term_id.get_external_id().get(o.invoice_payment_term_id.id) == 'account.account_payment_term_immediate'" />
-
+                    t-value="o.invoice_payment_term_id and o.invoice_payment_term_id.get_external_id().get(o.invoice_payment_term_id.id) in [
+                    'account.account_payment_term_immediate',
+                    'account.account_payment_term_card',
+                    'account.account_payment_term_vista',
+                    'account.account_payment_term_5days',
+                    'account.account_payment_term_10days',
+                    'account.account_payment_term_15days',
+                    'account.account_payment_term_21days',
+                    'account.account_payment_term_30days',
+                    'account.account_payment_term_3060',
+                    'account.account_payment_term_6090'
+                ]" />
                 <t t-if="is_immediate and res_company.x_hide_bank_info">
                     <style>
                         #qrcode, .payment_communication, [name='payment_communication'],
@@ -106,7 +115,8 @@
 
             <!-- Gestión de la visibilidad del comentario -->
             <xpath expr="//div[@name='comment']" position="attributes">
-                <attribute name="t-if">not is_immediate and not is_html_empty(o.narration) and is_html_empty(res_company.report_footer) and
+                <attribute name="t-if">not is_immediate and not is_html_empty(o.narration) and
+                    is_html_empty(res_company.report_footer) and
                     res_company.x_hide_bank_info</attribute>
             </xpath>
         </field>
