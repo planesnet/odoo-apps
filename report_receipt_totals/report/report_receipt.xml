@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_pos_ticket_pdf" model="report.paperformat">
+        <field name="name">Ticket 80mm</field>
+        <field name="default" eval="False" />
+        <field name="format">custom</field>
+        <field name="page_height">0</field>
+        <field name="page_width">80</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">2</field>
+        <field name="margin_bottom">2</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_pos_session_custom_details" model="ir.actions.report">
+        <field name="name">Detalle de sesión</field>
+        <field name="model">pos.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_receipt_totals.report_session_custom_ticket</field>
+        <field name="report_file">report_receipt_totals.report_session_custom_ticket</field>
+        <field name="paperformat_id" ref="paperformat_pos_ticket_pdf" />
+        <field name="binding_model_id" ref="point_of_sale.model_pos_session" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_session_custom_ticket">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-size: 11px; font-family: 'Courier New', monospace;">
+
+                    <div class="text-center"
+                        style="border-bottom: 1px solid black; padding-bottom: 5px; margin-bottom: 10px;">
+                        <h5 style="margin: 0; font-weight: bold;">Informe de Ventas Diario <t
+                                t-if="doc.state == 'closed'">Z</t><t t-else="">X</t></h5>
+                        <div style="font-size: 0.9rem;">
+                            <span t-field="doc.company_id.name" /><br /> ID de Sesión: <span
+                                t-field="doc.name" />
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-12 text-center">
+                            <span
+                                t-field="doc.start_at" t-options='{"widget": "datetime"}' /> - <span
+                                t-field="doc.stop_at" t-options='{"widget": "datetime"}' />
+                        </div>
+                    </div>
+
+                    <h6 style="background-color: #eee; padding: 2px; font-weight: bold;">Control de
+                        Sesión</h6>
+                    <table class="table table-sm table-borderless" style="width: 100%;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid black;">
+                                <th class="text-start">Método</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.payment_method_ids" t-as="method">
+                                <t t-set="payments"
+                                    t-value="doc.order_ids.mapped('payment_ids').filtered(lambda p: p.payment_method_id == method)" />
+                                <t t-set="total_method" t-value="sum(payments.mapped('amount'))" />
+                                <tr class="border-bottom">
+                                    <td class="text-start">
+                                        <strong>
+                                            <span t-field="method.name" />
+                                        </strong>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="total_method"
+                                            t-options='{"widget": "monetary", "display_currency": doc.currency_id}' />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 5px; border-top: 1px solid black; padding-top: 5px;">
+                        <div class="row">
+                            <div class="col-7 text-start">
+                                <strong>Total Pagos:</strong>
+                            </div>
+                            <div class="col-5 text-end">
+                                <strong>
+                                    <span t-field="doc.total_payments_amount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}' />
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7 text-start">Transacciones:</div>
+                            <div class="col-5 text-end">
+                                <span t-esc="len(doc.order_ids)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center"
+                        style="margin-top: 30px; border-top: 1px dashed black; padding-top: 10px;">
+                        *** Fin del Informe de Sesión ***
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

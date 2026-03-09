@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Variable hide proforma  -->
     <record id="field_res_company_x_hide_proforma" model="ir.model.fields">
         <field name="name">x_hide_proforma</field>
         <field name="field_description">Ocultar Proforma y Borrador</field>
@@ -18,7 +17,6 @@
         <field name="state">manual</field>
     </record>
 
-    <!-- Variable mostrar giro bancario -->
     <record id="field_res_company_x_hide_bank_info" model="ir.model.fields">
         <field name="name">x_hide_bank_info</field>
         <field name="field_description">Ocultar Giro Bancario</field>
@@ -36,46 +34,62 @@
         <field name="state">manual</field>
     </record>
 
-    <!-- Add variable in document layout form -->
-    <record id="view_document_layout_form_inherit_proforma" model="ir.ui.view">
-        <field name="name">base.document.layout.form.inherit.proforma</field>
+    <record id="field_res_company_x_report_bank_ids" model="ir.model.fields">
+        <field name="name">x_report_bank_ids</field>
+        <field name="field_description">Bancos para Reportes</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="ttype">many2many</field>
+        <field name="relation">res.partner.bank</field>
+        <field name="relation_table">res_company_report_bank_rel</field>
+        <field name="column1">company_id</field>
+        <field name="column2">bank_id</field>
+        <field name="state">manual</field>
+    </record>
+
+    <record id="field_base_document_layout_x_report_bank_ids" model="ir.model.fields">
+        <field name="name">x_report_bank_ids</field>
+        <field name="field_description">Bancos en Factura</field>
+        <field name="model_id" ref="web.model_base_document_layout" />
+        <field name="ttype">many2many</field>
+        <field name="relation">res.partner.bank</field>
+        <field name="related">company_id.x_report_bank_ids</field>
+        <field name="state">manual</field>
+    </record>
+
+    <record id="view_document_layout_form_inherit" model="ir.ui.view">
+        <field name="name">base.document.layout.form.inherit</field>
         <field name="model">base.document.layout</field>
         <field name="inherit_id" ref="web.view_base_document_layout" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='paperformat_id']" position="after">
-                <field name="x_hide_proforma" string="Ocultar 'Proforma' en Facturas"
-                    widget="boolean_toggle" />
-                <field name="x_hide_bank_info" string="Ocultar Giro Bancario"
-                    widget="boolean_toggle" />
+                <field name="x_hide_proforma" widget="boolean_toggle" />
+                <field name="x_hide_bank_info" widget="boolean_toggle" />
+                <field name="x_report_bank_ids"
+                    widget="many2many_tags"
+                    placeholder="Todos los bancos..." />
             </xpath>
         </field>
     </record>
 
-    <!-- Modify invoice report to use the variable -->
-    <record id="report_invoice_document_inherit_proforma" model="ir.ui.view">
-        <field name="name">account.report.invoice.document.inherit.proforma</field>
+    <record id="report_invoice_document_inherit" model="ir.ui.view">
+        <field name="name">account.report.invoice.document.inherit</field>
         <field name="inherit_id" ref="account.report_invoice_document" />
         <field name="priority" eval="1000" />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('page')]" position="before">
                 <t t-set="is_immediate"
                     t-value="o.invoice_payment_term_id and o.invoice_payment_term_id.get_external_id().get(o.invoice_payment_term_id.id) in [
-                    'account.account_payment_term_immediate',
-                    'account.account_payment_term_card',
-                    'account.account_payment_term_vista',
-                    'account.account_payment_term_5days',
-                    'account.account_payment_term_10days',
-                    'account.account_payment_term_15days',
-                    'account.account_payment_term_21days',
-                    'account.account_payment_term_30days',
-                    'account.account_payment_term_3060',
-                    'account.account_payment_term_6090'
+                    'account.account_payment_term_immediate', 'account.account_payment_term_card',
+                    'account.account_payment_term_vista', 'account.account_payment_term_5days',
+                    'account.account_payment_term_10days', 'account.account_payment_term_15days',
+                    'account.account_payment_term_21days', 'account.account_payment_term_30days',
+                    'account.account_payment_term_3060', 'account.account_payment_term_6090'
                 ]" />
+
                 <t t-if="is_immediate and res_company.x_hide_bank_info">
                     <style>
                         #qrcode, .payment_communication, [name='payment_communication'],
-                        div:has(> p:contains("direct debit")), div:has(>
-                        p:contains("domiciliación
+                        div:has(> p:contains("direct debit")), div:has(> p:contains("domiciliación
                         bancaria")) {
                         display: none !important;
                         }
@@ -83,27 +97,23 @@
                 </t>
             </xpath>
 
-            <!-- Gestión de la visibilidad de la proforma -->
             <xpath expr="//t[@t-if='not proforma']" position="attributes">
                 <attribute name="t-if">not proforma or res_company.x_hide_proforma</attribute>
             </xpath>
-
             <xpath expr="//t[@t-else='']" position="attributes">
                 <attribute name="t-if">proforma and not res_company.x_hide_proforma</attribute>
             </xpath>
 
-            <!-- Gestión del giro bancario -->
             <xpath expr="//p[@name='payment_communication']" position="replace">
                 <p name="payment_communication"
                     t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference and o.invoice_payment_term_id and not is_immediate and res_company.x_hide_bank_info">
-                    Comunicación de pago: <span class="fw-bold" t-field="o.payment_reference">
-                    INV/2023/00001</span>
-                   <t t-set="company_banks"
-                        t-value="res_company.partner_id.bank_ids" />
-                    <t t-if="company_banks">
+                    <span>Comunicación de pago: </span>
+                    <span class="fw-bold" t-field="o.payment_reference" />
+                    <t t-set="banks_to_show" t-value="res_company.x_report_bank_ids" />
+                    <t t-if="banks_to_show">
                         <br />
                         <span> en esta cuenta: </span>
-                        <t t-foreach="company_banks" t-as="bank">
+                        <t t-foreach="banks_to_show" t-as="bank">
                             <span class="fw-bold" t-out="bank.acc_number" />
                             <t t-if="not bank_last">
                                 <span> o </span>
@@ -113,11 +123,9 @@
                 </p>
             </xpath>
 
-            <!-- Gestión de la visibilidad del comentario -->
             <xpath expr="//div[@name='comment']" position="attributes">
                 <attribute name="t-if">not is_immediate and not is_html_empty(o.narration) and
-                    is_html_empty(res_company.report_footer) and
-                    res_company.x_hide_bank_info</attribute>
+                    is_html_empty(res_company.report_footer) and res_company.x_hide_bank_info</attribute>
             </xpath>
         </field>
     </record>
