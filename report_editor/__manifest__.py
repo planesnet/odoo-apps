@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Editor de reportes Odoo 19",
-    'version': '19.0.1.0.0',
+    'version': '19.0.2.0.0',
     'author': "Planes Soluciones Informáticas",
     'category': 'Web',
     'depends': ['base', 'web', 'html_editor', 'account'],
