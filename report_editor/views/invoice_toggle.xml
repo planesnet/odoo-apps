@@ -105,22 +105,34 @@
             </xpath>
 
             <xpath expr="//p[@name='payment_communication']" position="replace">
-                <p name="payment_communication"
-                    t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference and o.invoice_payment_term_id and not is_immediate and res_company.x_hide_bank_info">
-                    <span>Comunicación de pago: </span>
-                    <span class="fw-bold" t-field="o.payment_reference" />
-                    <t t-set="banks_to_show" t-value="res_company.x_report_bank_ids" />
-                    <t t-if="banks_to_show">
-                        <br />
-                        <span> en esta cuenta: </span>
-                        <t t-foreach="banks_to_show" t-as="bank">
-                            <span class="fw-bold" t-out="bank.acc_number" />
-                            <t t-if="not bank_last">
-                                <span> o </span>
+                <t
+                    t-if='o.move_type in ("out_invoice", "in_refund") and o.payment_reference and o.invoice_payment_term_id and not is_immediate and res_company.x_hide_bank_info'>
+                    <p name="payment_communication">
+                        <span>Comunicación de pago: </span>
+                        <span class="fw-bold" t-field="o.payment_reference" />
+                        <t t-set="banks_to_show" t-value="res_company.x_report_bank_ids" />
+                        <t t-if="banks_to_show">
+                            <br />
+                            <span> en esta cuenta: </span>
+                            <t t-foreach="banks_to_show" t-as="bank">
+                                <span class="fw-bold" t-out="bank.acc_number" />
+                                <t t-if="not bank_last">
+                                    <span> o </span>
+                                </t>
                             </t>
                         </t>
-                    </t>
-                </p>
+                    </p>
+                </t>
+                <t t-else="">
+                    <p name="payment_communication"> Comunicación de pago: <span class="fw-bold"
+                            t-field="o.payment_reference">INV/2023/00001</span>
+                                        <t
+                            t-if="o.partner_bank_id">
+                            <br /> en esta cuenta: <span t-field="o.partner_bank_id"
+                                class="fw-bold" />
+                        </t>
+                    </p>
+                </t>
             </xpath>
 
             <xpath expr="//div[@name='comment']" position="attributes">
