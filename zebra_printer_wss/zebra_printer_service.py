@@ -11,7 +11,7 @@ import threading
 # Importa la lógica del servidor desde el otro fichero
 # Asegúrate de que wss_server_for_service.py está en la misma carpeta
 # o en una ruta accesible por Python.
-from proxy_server import main as wss_main
+from zebra_wss_proxy import main as wss_main
 
 # Cambia el directorio de trabajo al del script.
 # Esto es crucial para que el servicio encuentre los ficheros (cert.pem, etc.)
@@ -22,9 +22,9 @@ print(f"PATH {path}")
 os.chdir(path)
 
 class WSServerService(win32serviceutil.ServiceFramework):
-    _svc_name_ = "WSSPythonServer"
-    _svc_display_name_ = "WSS Python Server"
-    _svc_description_ = "Servidor WebSocket Secure implementado en Python que se ejecuta como servicio de Windows."
+    _svc_name_ = "Zebra WSS Printer Server"
+    _svc_display_name_ = "Zebra WSS Printer Server"
+    _svc_description_ = "Servidor Zebra Printer WebSocket Secure implementado en Python que se ejecuta como servicio de Windows."
 
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
