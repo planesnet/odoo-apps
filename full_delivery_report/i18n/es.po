@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* full_delivery_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-26 18:00+0000\n"
+"PO-Revision-Date: 2026-05-26 18:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: full_delivery_report
+#: model:ir.actions.report,name:full_delivery_report.action_report_delivery_material
+msgid "Full Picking Operations"
+msgstr "Operaciones de Picking Completas"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Customer Address"
+msgstr "Dirección del Cliente"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Delivery Address:"
+msgstr "Dirección de Entrega:"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Vendor Address"
+msgstr "Dirección del Proveedor"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Warehouse Address"
+msgstr "Dirección del Almacén"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Order"
+msgstr "Documento"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Status"
+msgstr "Estado"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Scheduled Date"
+msgstr "Fecha Programada"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Product"
+msgstr "Producto"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "From"
+msgstr "Desde"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "To"
+msgstr "Hacia"
+
+#. module: full_delivery_report
+#: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report
+msgid "Product Barcode"
+msgstr "Código de Barras"
