@@ -23,60 +23,60 @@ msgstr "Operaciones de Picking Completas"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Quantity"
-msgstr "Cantidad"
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Cantidad</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Customer Address"
-msgstr "Dirección del Cliente"
+msgid "<strong>Customer Address</strong>"
+msgstr "<strong>Dirección del Cliente</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Delivery Address:"
-msgstr "Dirección de Entrega:"
+msgid "<span><strong>Delivery Address:</strong></span>"
+msgstr "<span><strong>Dirección de Entrega:</strong></span>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Vendor Address"
-msgstr "Dirección del Proveedor"
+msgid "<strong>Vendor Address</strong>"
+msgstr "<strong>Dirección del Proveedor</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Warehouse Address"
-msgstr "Dirección del Almacén"
+msgid "<strong>Warehouse Address</strong>"
+msgstr "<strong>Dirección del Almacén</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Order"
-msgstr "Documento"
+msgid "<strong>Order</strong>"
+msgstr "<strong>Documento</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Status"
-msgstr "Estado"
+msgid "<strong>Status</strong>"
+msgstr "<strong>Estado</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Scheduled Date"
-msgstr "Fecha Programada"
+msgid "<strong>Scheduled Date</strong>"
+msgstr "<strong>Fecha Programada</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Product"
-msgstr "Producto"
+msgid "<strong>Product</strong>"
+msgstr "<strong>Producto</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "From"
-msgstr "Desde"
+msgid "<strong>From</strong>"
+msgstr "<strong>Desde</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "To"
-msgstr "Hacia"
+msgid "<strong>To</strong>"
+msgstr "<strong>Hacia</strong>"
 
 #. module: full_delivery_report
 #: model_terms:ir.ui.view,arch_db:full_delivery_report.full_delivery_report_document
-msgid "Product Barcode"
-msgstr "Código de Barras"
+msgid "<strong>Product Barcode</strong>"
+msgstr "<strong>Código de Barras</strong>"
