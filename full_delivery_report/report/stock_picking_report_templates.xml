@@ -72,8 +72,8 @@
                                 <p t-field="o.scheduled_date">2023-09-24</p>
                             </div>
                         </div>
-                        <table class="table table-sm mt16" t-if="o.move_ids_without_package">
-                            <t t-set="has_barcode" t-value="any(move.product_id and move.product_id.sudo().barcode for move in o.move_ids_without_package)"/>
+                        <table class="table table-sm mt16" t-if="o.move_ids">
+                            <t t-set="has_barcode" t-value="any(move.product_id and move.product_id.sudo().barcode for move in o.move_ids)"/>
                             <thead>
                                 <tr>
                                     <th name="th_product">
@@ -94,7 +94,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.move_ids_without_package" t-as="move">
+                                <tr t-foreach="o.move_ids" t-as="move">
                                     <td>
                                         <span t-field="move.product_id.display_name"/><br/>
                                         <span t-if="move.product_id.description_picking" t-field="move.product_id.description_picking"/>

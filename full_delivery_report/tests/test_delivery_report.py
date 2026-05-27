@@ -28,7 +28,6 @@ class TestDeliveryReport(TransactionCase):
         })
 
         self.env['stock.move'].create({
-            'name': self.product.name,
             'product_id': self.product.id,
             'product_uom_qty': 10.0,
             'quantity': 10.0,
