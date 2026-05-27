@@ -46,46 +46,46 @@
                         </div>
                         <div class="oe_structure"></div>
                         <div class="row mt16 mb16">
-                            <div>
-                                <div class="float-start"><h1 t-field="o.name" class="mt-0">WH/OUT/00001</h1></div>
-                                <div class="float-start">
-                                    <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:300px;height:50px;'}">
-                                        <div class="bg-light border-1 rounded d-flex flex-column align-items-center justify-content-center p-3 opacity-75 text-muted text-center">
-                                            (document barcode)
-                                        </div>
+                            <div class="col-6">
+                                <h1 t-field="o.name" class="mt-0">WH/OUT/00001</h1>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end align-items-center">
+                                <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:300px;height:50px;'}">
+                                    <div class="bg-light border-1 rounded d-flex flex-column align-items-center justify-content-center p-3 opacity-75 text-muted text-center">
+                                        (document barcode)
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="oe_structure"></div>
-                        <div id="informations" class="row mb-4">
-                            <div t-if="o.origin" class="col" name="div_origin">
+                        <div id="informations" class="row mt32 mb32">
+                            <div t-if="o.origin" class="col-auto" name="div_origin">
                                 <strong>Order</strong>
-                                <div t-field="o.origin">S0001</div>
+                                <p t-field="o.origin">S0001</p>
                             </div>
-                            <div class="col" name="div_state">
+                            <div class="col-auto" name="div_state">
                                 <strong>Status</strong>
-                                <div t-field="o.state">Draft</div>
+                                <p t-field="o.state">Draft</p>
                             </div>
-                            <div t-if="o.scheduled_date" class="col" name="div_sched_date">
+                            <div t-if="o.scheduled_date" class="col-auto" name="div_sched_date">
                                 <strong>Scheduled Date</strong>
-                                <div t-field="o.scheduled_date">2023-09-24</div>
+                                <p t-field="o.scheduled_date">2023-09-24</p>
                             </div>
                         </div>
-                        <table class="table table-borderless mt16" t-if="o.move_ids_without_package">
+                        <table class="table table-sm mt16" t-if="o.move_ids_without_package">
                             <t t-set="has_barcode" t-value="any(move.product_id and move.product_id.sudo().barcode for move in o.move_ids_without_package)"/>
                             <thead>
                                 <tr>
                                     <th name="th_product">
-                                        <div align="left"><strong>Product</strong></div>
+                                        <strong>Product</strong>
                                     </th>
                                     <th class="text-end">
                                         <strong>Quantity</strong>
                                     </th>
-                                    <th name="th_from" t-if="o.picking_type_id.code != 'incoming'" align="left" groups="stock.group_stock_multi_locations" class="text-start">
+                                    <th name="th_from" t-if="o.picking_type_id.code != 'incoming'" align="left" groups="stock.group_stock_multi_locations">
                                         <strong>From</strong>
                                     </th>
-                                    <th name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations" class="text-start">
+                                    <th name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
                                         <strong>To</strong>
                                     </th>
                                     <th name="th_barcode" class="text-center" t-if="has_barcode">
@@ -103,10 +103,10 @@
                                         <span t-field="move.product_uom_qty" class="text-nowrap"/>
                                         <span t-field="move.product_uom" groups="uom.group_uom"/>
                                     </td>
-                                    <td t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations" class="text-end">
+                                    <td t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations">
                                         <span t-esc="move.location_id.display_name"/>
                                     </td>
-                                    <td t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations" class="text-end">
+                                    <td t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
                                         <span t-field="move.location_dest_id"/>
                                     </td>
                                     <td class="text-center" t-if="has_barcode">
