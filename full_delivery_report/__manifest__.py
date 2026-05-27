@@ -7,7 +7,7 @@
     'depends': ['stock'],
     'data': [
         'report/delivery_material_report.xml',
-        'report/delivery_material_templates.xml',
+        'report/stock_picking_report_templates.xml',
     ],
     'installable': True,
     'application': False,
