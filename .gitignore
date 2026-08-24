@@ -33,9 +33,7 @@ install/win32/meta.py
 /share/
 /src/
 
-# ODT multi-version environment files
-.venv-*
-.odoo_data-*
-.odoorc-*
-.odt
-.odt_history
+# Local certificates and test files
+zebra_printerwss
+*.pem
+

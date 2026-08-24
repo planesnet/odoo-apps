@@ -48,7 +48,7 @@ def print_zebra_test_page(printer_ip, printer_port=9100):
 
 if __name__ == "__main__":
     # La dirección IP de tu impresora Zebra
-    PRINTER_IP_ADDRESS = "10.0.10.230"
+    PRINTER_IP_ADDRESS = "10.0.10.20"
     
     # Llama a la función para imprimir la página de prueba
     print_zebra_test_page(PRINTER_IP_ADDRESS)

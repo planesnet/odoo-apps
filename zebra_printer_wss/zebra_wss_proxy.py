@@ -31,7 +31,7 @@ async def handler(websocket):
                     printer_ip = data['printer_ip']
                     printer_port = data['printer_port']
                     zpl_data = data['zpl']
-                    logger.info(json.dumps(data, indent=4, ensure_ascii=False))
+                    # logger.info(json.dumps(data, indent=4, ensure_ascii=False))
 
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.connect((printer_ip, printer_port))
@@ -60,22 +60,19 @@ async def handler(websocket):
             error_response = {"code": "ERROR", "message": "Error interno del servidor."}
             await websocket.send(json.dumps(error_response))
 
-async def main(stop_event):
+async def main(stop_event, certfile="cert.pem", keyfile="key.pem", host="0.0.0.0"):
     """
     Configura y arranca el servidor WSS.
     Acepta un evento 'stop' para poder detenerse de forma controlada.
     """
-    host = "0.0.0.0"
     port = 8765
     
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     try:
-        # Asume que los certificados están en el mismo directorio que el script.
-        # Si el servicio se ejecuta desde C:\Windows\System32, usa rutas absolutas.
-        # Por ejemplo: 'C:/WSS_Service/cert.pem'
-        ssl_context.load_cert_chain(certfile="cert.pem", keyfile="key.pem")
+        # Usamos las rutas pasadas como argumentos (por defecto buscan en el CWD)
+        ssl_context.load_cert_chain(certfile=certfile, keyfile=keyfile)
     except FileNotFoundError:
-        logger.critical("Error: No se encontraron los ficheros 'cert.pem' y 'key.pem'.")
+        logger.critical(f"Error: No se encontraron los ficheros '{certfile}' y '{keyfile}'.")
         return
 
     logger.info(f"Iniciando servidor WSS en {host}:{port}")
